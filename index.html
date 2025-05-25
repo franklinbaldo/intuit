@@ -32,6 +32,7 @@
 
       const renderButton = document.getElementById('renderButton');
       const copyLinkButton = document.getElementById('copyLinkButton');
+      const clearEditorButton = document.getElementById('clearEditorButton'); // New button
 
       renderButton.addEventListener('click', () => {
         const htmlContent = htmlEditor.value;
@@ -54,6 +55,11 @@
           console.error('Failed to copy link: ', err);
           // You could also alert the user here if something goes wrong
         });
+      });
+
+      clearEditorButton.addEventListener('click', () => { // New event listener
+        htmlEditor.value = ''; // Clear the editor
+        renderHTML(''); // Clear the iframe
       });
 
       function renderHTML(html) {
@@ -83,6 +89,7 @@
     <textarea id="htmlEditor" class="w-full h-64 border border-gray-300 rounded mb-4 p-2" placeholder="Type or paste your HTML here..."></textarea>
     <button id="renderButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">Render</button>
     <button id="copyLinkButton" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-4 ml-2">Copy Link</button>
+    <button id="clearEditorButton" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-4 ml-2">Clear Editor</button>
     <iframe id="iframe" name="htmz" class="w-full h-96 border border-gray-300 rounded" onload="htmz(this)"></iframe>
   </div>
 </body>

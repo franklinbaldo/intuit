@@ -105,15 +105,15 @@ Franklin Silveira Baldo - [Github](https://github.com/franklinbaldo)
 
 ---
 
-[ ] Add Base64 support: detect ?b64= param and auto-decode payloads.
+[x] Add Base64 support: detect ?b64= param and auto-decode payloads.
 [ ] Implement Gist Loader: support ?gist=<id> to fetch and render external code.
 [ ] Enhance Sandboxing: toggle sandbox attribute for <iframe> (allow-scripts vs. strict).
 [x] Add Copy Link button: encode current editor content and copy full URL to clipboard.
 [-] Improve UX: add “Edit ↻” button to sync textarea changes back to the URL. (Editor and Render button added, direct URL sync pending)
-[ ] Add "Clear Editor" button: Provides a button to easily clear the content of the HTML textarea.
+[x] Add "Clear Editor" button: Provides a button to easily clear the content of the HTML textarea.
 [ ] Add Dark/Light Themes: Tailwind-based theme switcher for previews.
 [ ] Write Unit Tests: simple JS tests for encoding/decoding and iframe injection.
 [ ] Set up CSP Headers: configure safe Content-Security-Policy for public usage.
-[ ] Document API: detail query parameters and behaviors in README.
+[x] Document API: detail query parameters and behaviors in README.
 
 ---
