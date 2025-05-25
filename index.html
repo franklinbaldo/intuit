@@ -8,11 +8,21 @@
     document.addEventListener('DOMContentLoaded', () => {
       const urlParams = new URLSearchParams(window.location.search);
       const htmlData = urlParams.get('data');
+      const b64Data = urlParams.get('b64'); // New: Get b64 parameter
       const iframe = document.getElementById('iframe').contentWindow.document;
-      const htmlEditor = document.getElementById('htmlEditor'); // Moved up
+      const htmlEditor = document.getElementById('htmlEditor');
 
       if (htmlData) {
         renderHTML(htmlData);
+      } else if (b64Data) { // New: Check for b64Data
+        try {
+          const decodedHtml = atob(b64Data);
+          renderHTML(decodedHtml);
+        } catch (error) {
+          console.error("Error decoding Base64 data: ", error);
+          // Optionally, render a specific error message in the iframe or clear it
+          // For now, it will just not render if b64 is malformed.
+        }
       } else {
         const editorContent = htmlEditor.value;
         if (editorContent) {
