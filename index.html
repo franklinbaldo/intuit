@@ -9,10 +9,42 @@
       const urlParams = new URLSearchParams(window.location.search);
       const htmlData = urlParams.get('data');
       const iframe = document.getElementById('iframe').contentWindow.document;
+      const htmlEditor = document.getElementById('htmlEditor'); // Moved up
 
       if (htmlData) {
         renderHTML(htmlData);
+      } else {
+        const editorContent = htmlEditor.value;
+        if (editorContent) {
+          renderHTML(editorContent);
+        }
       }
+
+      const renderButton = document.getElementById('renderButton');
+      const copyLinkButton = document.getElementById('copyLinkButton');
+
+      renderButton.addEventListener('click', () => {
+        const htmlContent = htmlEditor.value;
+        renderHTML(htmlContent);
+      });
+
+      copyLinkButton.addEventListener('click', () => {
+        const htmlContent = htmlEditor.value;
+        const encodedHtml = encodeURIComponent(htmlContent);
+        const baseUrl = window.location.origin + window.location.pathname;
+        const shareableLink = `${baseUrl}?data=${encodedHtml}`;
+
+        navigator.clipboard.writeText(shareableLink).then(() => {
+          const originalButtonText = copyLinkButton.textContent;
+          copyLinkButton.textContent = 'Copied!';
+          setTimeout(() => {
+            copyLinkButton.textContent = originalButtonText;
+          }, 2000); // Revert after 2 seconds
+        }).catch(err => {
+          console.error('Failed to copy link: ', err);
+          // You could also alert the user here if something goes wrong
+        });
+      });
 
       function renderHTML(html) {
         iframe.open();
@@ -38,6 +70,9 @@
   <div class="container mx-auto p-8">
     <h1 class="text-3xl font-bold mb-4">URL to HTML</h1>
     <p class="mb-4">Rendered HTML:</p>
+    <textarea id="htmlEditor" class="w-full h-64 border border-gray-300 rounded mb-4 p-2" placeholder="Type or paste your HTML here..."></textarea>
+    <button id="renderButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">Render</button>
+    <button id="copyLinkButton" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-4 ml-2">Copy Link</button>
     <iframe id="iframe" name="htmz" class="w-full h-96 border border-gray-300 rounded" onload="htmz(this)"></iframe>
   </div>
 </body>
