@@ -61,7 +61,10 @@ Intuit can be controlled via URL query parameters:
 
 *   **`b64`**: Provides Base64-encoded HTML content to be rendered.
     *   Example: `...?b64=PGgxPkhlbGxvIFdvcmxkPC9oMT4=` (for `<h1>Hello World</h1>`)
-    *   **Note**: If both `data` and `b64` parameters are present in the URL, the `data` parameter will take precedence. If neither is present, the content from the live editor (if any) will be rendered on page load.
+
+*   **`gist`**: Provides a GitHub Gist ID to fetch and render. Intuit will look for the first file ending with `.html` within the Gist's files, retrieve its raw content, and render it.
+    *   Example: `...?gist=3f3c76c07548eb884388600d877f7691` (loads `<h1>Hello Gist!</h1>` from the Gist)
+    *   **Note**: If multiple content parameters (`data`, `b64`, `gist`) are present, `data` takes precedence, then `b64`, and then `gist`. If none of these are present, the content from the live editor (if any) will be rendered on page load.
 
 ### Live Editor and Tools
 
@@ -106,7 +109,7 @@ Franklin Silveira Baldo - [Github](https://github.com/franklinbaldo)
 ---
 
 [x] Add Base64 support: detect ?b64= param and auto-decode payloads.
-[ ] Implement Gist Loader: support ?gist=<id> to fetch and render external code.
+[x] Implement Gist Loader: support ?gist=<id> to fetch and render external code.
 [ ] Enhance Sandboxing: toggle sandbox attribute for <iframe> (allow-scripts vs. strict).
 [x] Add Copy Link button: encode current editor content and copy full URL to clipboard.
 [-] Improve UX: add “Edit ↻” button to sync textarea changes back to the URL. (Editor and Render button added, direct URL sync pending)

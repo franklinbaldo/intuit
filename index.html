@@ -8,21 +8,57 @@
     document.addEventListener('DOMContentLoaded', () => {
       const urlParams = new URLSearchParams(window.location.search);
       const htmlData = urlParams.get('data');
-      const b64Data = urlParams.get('b64'); // New: Get b64 parameter
+      const b64Data = urlParams.get('b64');
+      const gistId = urlParams.get('gist'); // New: Get gist parameter
       const iframe = document.getElementById('iframe').contentWindow.document;
       const htmlEditor = document.getElementById('htmlEditor');
 
       if (htmlData) {
         renderHTML(htmlData);
-      } else if (b64Data) { // New: Check for b64Data
+      } else if (b64Data) {
         try {
           const decodedHtml = atob(b64Data);
           renderHTML(decodedHtml);
         } catch (error) {
           console.error("Error decoding Base64 data: ", error);
-          // Optionally, render a specific error message in the iframe or clear it
-          // For now, it will just not render if b64 is malformed.
         }
+      } else if (gistId) { // New: Check for gistId
+        console.log("Fetching Gist:", gistId);
+        fetch(`https://api.github.com/gists/${gistId}`)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`GitHub API error: ${response.status}`);
+            }
+            return response.json();
+          })
+          .then(data => {
+            let htmlFileUrl = null;
+            for (const file of Object.values(data.files)) {
+              if (file.filename.endsWith('.html')) {
+                htmlFileUrl = file.raw_url;
+                break; 
+              }
+            }
+
+            if (htmlFileUrl) {
+              return fetch(htmlFileUrl);
+            } else {
+              console.error("No HTML file found in Gist");
+              throw new Error("No HTML file found in Gist"); // Stop promise chain
+            }
+          })
+          .then(response => {
+            if (!response.ok) { // This 'response' is from fetching the raw_url
+              throw new Error(`Error fetching Gist raw content: ${response.status}`);
+            }
+            return response.text();
+          })
+          .then(htmlText => {
+            renderHTML(htmlText);
+          })
+          .catch(error => {
+            console.error("Error fetching Gist content:", error);
+          });
       } else {
         const editorContent = htmlEditor.value;
         if (editorContent) {
