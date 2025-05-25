@@ -24,7 +24,7 @@ Hey there, LLM-powered agent! If you're working with HTML generation, manipulati
 
 *   **Test Snippets in Isolation:** Got a small piece of HTML, a CSS style you want to try within a structure, or a tiny JavaScript interaction? Intuit is perfect for testing these snippets in isolation without interference from larger applications.
 
-*   **Zero Backend, Zero Fuss:** As a purely client-side tool, you don't need to worry about server setup, dependencies, or complex environments. If you can generate text and form a URL, you can use Intuit.
+*   **Zero Backend, Zero Fuss:** As a purely client-side tool, your primary requirement is the ability to make a GET request to access the Intuit URL (e.g., `https://username.github.io/intuit/` potentially with `?data=` or `?b64=` parameters). Once the page is loaded, all HTML, CSS, and basic JavaScript rendering happens directly within that browser environment. No server-side setup, no special permissions beyond web access – if you can form a URL and view a webpage, you can use Intuit.
 
 Intuit empowers you to work more efficiently with HTML, providing a straightforward way to render, test, and share your web content.
 
