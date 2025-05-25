@@ -68,7 +68,9 @@
 
       const renderButton = document.getElementById('renderButton');
       const copyLinkButton = document.getElementById('copyLinkButton');
-      const clearEditorButton = document.getElementById('clearEditorButton'); // New button
+      const clearEditorButton = document.getElementById('clearEditorButton');
+      const sandboxToggle = document.getElementById('sandboxToggle'); // New toggle
+      const iframeElement = document.getElementById('iframe'); // Reference to the iframe element itself
 
       renderButton.addEventListener('click', () => {
         const htmlContent = htmlEditor.value;
@@ -96,6 +98,17 @@
       clearEditorButton.addEventListener('click', () => { // New event listener
         htmlEditor.value = ''; // Clear the editor
         renderHTML(''); // Clear the iframe
+      });
+
+      sandboxToggle.addEventListener('change', function() {
+        if (sandboxToggle.checked) {
+          iframeElement.sandbox = 'allow-scripts allow-same-origin allow-popups allow-forms';
+        } else {
+          iframeElement.sandbox = '';
+        }
+        // Re-render the current content with the new sandbox settings
+        const currentHtml = htmlEditor.value;
+        renderHTML(currentHtml);
       });
 
       function renderHTML(html) {
@@ -126,7 +139,11 @@
     <button id="renderButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">Render</button>
     <button id="copyLinkButton" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-4 ml-2">Copy Link</button>
     <button id="clearEditorButton" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-4 ml-2">Clear Editor</button>
-    <iframe id="iframe" name="htmz" class="w-full h-96 border border-gray-300 rounded" onload="htmz(this)"></iframe>
+    <div class="mb-4">
+      <input type="checkbox" id="sandboxToggle" class="mr-2">
+      <label for="sandboxToggle" class="text-sm text-gray-700">Allow Scripts (Relaxed Sandbox)</label>
+    </div>
+    <iframe id="iframe" name="htmz" class="w-full h-96 border border-gray-300 rounded" onload="htmz(this)" sandbox=""></iframe>
   </div>
 </body>
 </html>
