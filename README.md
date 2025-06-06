@@ -10,6 +10,7 @@ Intuit is a minimalist web tool that decodes and renders HTML content passed as 
 - Real-time rendering of HTML within an iframe.
 - Clean and user-friendly interface for ease of use.
 - **Configurable Sandbox:** Control the `iframe` sandbox policy. By default, scripts are disabled for security. A toggle allows enabling scripts (`allow-scripts`, `allow-same-origin`, `allow-popups`, `allow-forms`) for testing snippets that require them. Use with caution with untrusted HTML.
+- **Theme Toggle:** Switch between light and dark modes. Preference is saved in local storage.
 
 ## Intuit for LLM-Powered Agents
 
@@ -75,6 +76,7 @@ Beyond URL parameters, Intuit offers:
 *   **Render Button**: Renders the content from the HTML editor into the preview iframe.
 *   **Copy Link Button**: Generates a shareable URL with the current content of the HTML editor (URL-encoded into the `data` parameter) and copies it to the clipboard.
 *   **Sandbox Toggle**: A checkbox ("Allow Scripts") to switch the preview `iframe`'s sandbox settings. Unchecked (default) provides a strict sandbox. Checked allows scripts, same-origin operations, popups, and forms.
+*   **Theme Toggle**: Switch between light and dark modes.
 
 ## Installation
 
@@ -116,7 +118,7 @@ Franklin Silveira Baldo - [Github](https://github.com/franklinbaldo)
 [x] Add Copy Link button: encode current editor content and copy full URL to clipboard.
 [-] Improve UX: add “Edit ↻” button to sync textarea changes back to the URL. (Editor and Render button added, direct URL sync pending)
 [x] Add "Clear Editor" button: Provides a button to easily clear the content of the HTML textarea.
-[ ] Add Dark/Light Themes: Tailwind-based theme switcher for previews.
+[x] Add Dark/Light Themes: Tailwind-based theme switcher for previews.
 [ ] Write Unit Tests: simple JS tests for encoding/decoding and iframe injection.
 [ ] Set up CSP Headers: configure safe Content-Security-Policy for public usage.
 [x] Document API: detail query parameters and behaviors in README.
