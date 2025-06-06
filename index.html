@@ -12,6 +12,19 @@
       const gistId = urlParams.get('gist'); // New: Get gist parameter
       const iframe = document.getElementById('iframe').contentWindow.document;
       const htmlEditor = document.getElementById('htmlEditor');
+      const errorMessage = document.getElementById('errorMessage');
+
+      function showError(message) {
+        errorMessage.textContent = message;
+        errorMessage.classList.remove('hidden');
+      }
+
+      function hideError() {
+        errorMessage.textContent = '';
+        if (!errorMessage.classList.contains('hidden')) {
+          errorMessage.classList.add('hidden');
+        }
+      }
 
       if (htmlData) {
         renderHTML(htmlData);
@@ -23,6 +36,7 @@
           console.error("Error decoding Base64 data: ", error);
         }
       } else if (gistId) { // New: Check for gistId
+        hideError();
         console.log("Fetching Gist:", gistId);
         fetch(`https://api.github.com/gists/${gistId}`)
           .then(response => {
@@ -54,10 +68,12 @@
             return response.text();
           })
           .then(htmlText => {
+            hideError();
             renderHTML(htmlText);
           })
           .catch(error => {
             console.error("Error fetching Gist content:", error);
+            showError('Failed to load Gist content.');
           });
       } else {
         const editorContent = htmlEditor.value;
@@ -132,9 +148,10 @@
   </script>
 </head>
 <body class="font-sans antialiased bg-gray-100 text-gray-800">
-  <div class="container mx-auto p-8">
-    <h1 class="text-3xl font-bold mb-4">URL to HTML</h1>
-    <p class="mb-4">Rendered HTML:</p>
+    <div class="container mx-auto p-8">
+      <h1 class="text-3xl font-bold mb-4">URL to HTML</h1>
+      <div id="errorMessage" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded mb-4"></div>
+      <p class="mb-4">Rendered HTML:</p>
     <textarea id="htmlEditor" class="w-full h-64 border border-gray-300 rounded mb-4 p-2" placeholder="Type or paste your HTML here..."></textarea>
     <button id="renderButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">Render</button>
     <button id="copyLinkButton" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-4 ml-2">Copy Link</button>
