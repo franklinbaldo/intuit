@@ -74,6 +74,7 @@ Beyond URL parameters, Intuit offers:
 *   **HTML Editor**: A textarea to directly type or paste HTML.
 *   **Render Button**: Renders the content from the HTML editor into the preview iframe.
 *   **Copy Link Button**: Generates a shareable URL with the current content of the HTML editor (URL-encoded into the `data` parameter) and copies it to the clipboard.
+*   **Update URL Button**: Replaces the page's `data` query parameter with the editor contents without reloading the page (using `history.replaceState`).
 *   **Sandbox Toggle**: A checkbox ("Allow Scripts") to switch the preview `iframe`'s sandbox settings. Unchecked (default) provides a strict sandbox. Checked allows scripts, same-origin operations, popups, and forms.
 
 ## Installation
@@ -114,7 +115,7 @@ Franklin Silveira Baldo - [Github](https://github.com/franklinbaldo)
 [x] Implement Gist Loader: support ?gist=<id> to fetch and render external code.
 [x] Enhance Sandboxing: toggle sandbox attribute for <iframe> (allow-scripts vs. strict).
 [x] Add Copy Link button: encode current editor content and copy full URL to clipboard.
-[-] Improve UX: add “Edit ↻” button to sync textarea changes back to the URL. (Editor and Render button added, direct URL sync pending)
+[x] Add "Update URL" button: syncs textarea changes back to the `data` parameter via `history.replaceState`.
 [x] Add "Clear Editor" button: Provides a button to easily clear the content of the HTML textarea.
 [ ] Add Dark/Light Themes: Tailwind-based theme switcher for previews.
 [ ] Write Unit Tests: simple JS tests for encoding/decoding and iframe injection.

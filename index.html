@@ -88,6 +88,7 @@
       const renderButton = document.getElementById('renderButton');
       const copyLinkButton = document.getElementById('copyLinkButton');
       const clearEditorButton = document.getElementById('clearEditorButton');
+      const updateUrlButton = document.getElementById('updateUrlButton');
       const sandboxToggle = document.getElementById('sandboxToggle'); // New toggle
       const iframeElement = document.getElementById('iframe'); // Reference to the iframe element itself
 
@@ -117,6 +118,14 @@
       clearEditorButton.addEventListener('click', () => { // New event listener
         htmlEditor.value = ''; // Clear the editor
         renderHTML(''); // Clear the iframe
+      });
+
+      updateUrlButton.addEventListener('click', () => {
+        const htmlContent = htmlEditor.value;
+        const encodedHtml = encodeURIComponent(htmlContent);
+        const baseUrl = window.location.origin + window.location.pathname;
+        const newUrl = `${baseUrl}?data=${encodedHtml}`;
+        history.replaceState(null, '', newUrl);
       });
 
       sandboxToggle.addEventListener('change', function() {
@@ -159,6 +168,7 @@
     <button id="renderButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">Render</button>
     <button id="copyLinkButton" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-4 ml-2">Copy Link</button>
     <button id="clearEditorButton" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-4 ml-2">Clear Editor</button>
+    <button id="updateUrlButton" class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded mb-4 ml-2">Update URL</button>
     <div class="mb-4">
       <input type="checkbox" id="sandboxToggle" class="mr-2">
       <label for="sandboxToggle" class="text-sm text-gray-700">Allow Scripts (Relaxed Sandbox)</label>
