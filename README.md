@@ -88,6 +88,15 @@ If you'd like to run Intuit locally:
 
 2. Open `index.html` in your web browser.
 
+### Running Tests
+
+Jest is used for the small test suite. Install dependencies and run:
+
+```sh
+npm install
+npm test
+```
+
 ## Technology Stack
 
 - HTML5
