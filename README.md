@@ -96,7 +96,7 @@ If you'd like to run Intuit locally:
 
 ## License
 
-This project is open-source and available under the [MIT License](LICENSE).
+This project is released under the [Apache 2.0 License](LICENSE).
 
 ## Contributing
 
