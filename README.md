@@ -10,6 +10,7 @@ Intuit is a minimalist web tool that decodes and renders HTML content passed as 
 - Real-time rendering of HTML within an iframe.
 - Clean and user-friendly interface for ease of use.
 - **Configurable Sandbox:** Control the `iframe` sandbox policy. By default, scripts are disabled for security. A toggle allows enabling scripts (`allow-scripts`, `allow-same-origin`, `allow-popups`, `allow-forms`) for testing snippets that require them. Use with caution with untrusted HTML.
+- **Dark Mode:** Switch between light and dark themes for comfortable viewing.
 
 ## Intuit for LLM-Powered Agents
 
@@ -117,7 +118,7 @@ Franklin Silveira Baldo - [Github](https://github.com/franklinbaldo)
 [x] Add Copy Link button: encode current editor content and copy full URL to clipboard.
 [x] Add "Update URL" button: syncs textarea changes back to the `data` parameter via `history.replaceState`.
 [x] Add "Clear Editor" button: Provides a button to easily clear the content of the HTML textarea.
-[ ] Add Dark/Light Themes: Tailwind-based theme switcher for previews.
+[x] Add Dark/Light Themes: Tailwind-based theme switcher for previews.
 [ ] Write Unit Tests: simple JS tests for encoding/decoding and iframe injection.
 [ ] Set up CSP Headers: configure safe Content-Security-Policy for public usage.
 [x] Document API: detail query parameters and behaviors in README.
