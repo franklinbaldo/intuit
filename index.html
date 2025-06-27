@@ -90,7 +90,15 @@
       const clearEditorButton = document.getElementById('clearEditorButton');
       const updateUrlButton = document.getElementById('updateUrlButton');
       const sandboxToggle = document.getElementById('sandboxToggle'); // New toggle
+      const themeToggle = document.getElementById('themeToggle'); // Dark/light theme toggle
       const iframeElement = document.getElementById('iframe'); // Reference to the iframe element itself
+
+      // Initialize theme based on localStorage
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+        themeToggle.checked = true;
+      }
 
       renderButton.addEventListener('click', () => {
         const htmlContent = htmlEditor.value;
@@ -139,6 +147,16 @@
         renderHTML(currentHtml);
       });
 
+      themeToggle.addEventListener('change', function() {
+        if (themeToggle.checked) {
+          document.documentElement.classList.add('dark');
+          localStorage.setItem('theme', 'dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+          localStorage.setItem('theme', 'light');
+        }
+      });
+
       function renderHTML(html) {
         iframe.open();
         iframe.write(html);
@@ -159,7 +177,7 @@
     }
   </script>
 </head>
-<body class="font-sans antialiased bg-gray-100 text-gray-800">
+<body class="font-sans antialiased bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-100">
     <div class="container mx-auto p-8">
       <h1 class="text-3xl font-bold mb-4">URL to HTML</h1>
       <div id="errorMessage" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded mb-4"></div>
@@ -168,12 +186,16 @@
     <button id="renderButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">Render</button>
     <button id="copyLinkButton" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-4 ml-2">Copy Link</button>
     <button id="clearEditorButton" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-4 ml-2">Clear Editor</button>
-    <button id="updateUrlButton" class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded mb-4 ml-2">Update URL</button>
-    <div class="mb-4">
-      <input type="checkbox" id="sandboxToggle" class="mr-2">
-      <label for="sandboxToggle" class="text-sm text-gray-700">Allow Scripts (Relaxed Sandbox)</label>
+      <button id="updateUrlButton" class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded mb-4 ml-2">Update URL</button>
+      <div class="mb-4">
+        <input type="checkbox" id="sandboxToggle" class="mr-2">
+        <label for="sandboxToggle" class="text-sm text-gray-700 dark:text-gray-300">Allow Scripts (Relaxed Sandbox)</label>
+      </div>
+      <div class="mb-4">
+        <input type="checkbox" id="themeToggle" class="mr-2">
+        <label for="themeToggle" class="text-sm text-gray-700 dark:text-gray-300">Dark Mode</label>
+      </div>
+      <iframe id="iframe" name="htmz" class="w-full h-96 border border-gray-300 rounded" onload="htmz(this)" sandbox=""></iframe>
     </div>
-    <iframe id="iframe" name="htmz" class="w-full h-96 border border-gray-300 rounded" onload="htmz(this)" sandbox=""></iframe>
-  </div>
-</body>
+  </body>
 </html>
