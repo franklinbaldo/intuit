@@ -120,8 +120,8 @@ Franklin Silveira Baldo - [Github](https://github.com/franklinbaldo)
 [x] Add "Update URL" button: syncs textarea changes back to the `data` parameter via `history.replaceState`.
 [x] Add "Clear Editor" button: Provides a button to easily clear the content of the HTML textarea.
 [x] Add Dark/Light Themes: Tailwind-based theme switcher for previews.
-[ ] Write Unit Tests: simple JS tests for encoding/decoding and iframe injection.
-[ ] Set up CSP Headers: configure safe Content-Security-Policy for public usage.
+[x] Write Unit Tests: simple JS tests for encoding/decoding and iframe injection.
+[x] Set up CSP Headers: configure safe Content-Security-Policy for public usage.
 [x] Document API: detail query parameters and behaviors in README.
 
 ---
