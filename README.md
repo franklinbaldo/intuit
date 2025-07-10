@@ -59,9 +59,11 @@ Intuit empowers you to work more efficiently with HTML, providing a straightforw
 Intuit can be controlled via URL query parameters:
 
 - **`data`**: Provides URL-encoded HTML content to be rendered.
+
   - Example: `...?data=%3Ch1%3EHello%20World%3C%2Fh1%3E`
 
 - **`b64`**: Provides Base64-encoded HTML content to be rendered.
+
   - Example: `...?b64=PGgxPkhlbGxvIFdvcmxkPC9oMT4=` (for `<h1>Hello World</h1>`)
 
 - **`gist`**: Provides a GitHub Gist ID to fetch and render. Intuit will look for the first file ending with `.html` within the Gist's files, retrieve its raw content, and render it.

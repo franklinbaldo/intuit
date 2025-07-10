@@ -2,188 +2,44 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' https://cdnjs.cloudflare.com; script-src 'self' 'unsafe-inline';" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; style-src 'self' https://cdnjs.cloudflare.com; script-src 'self' 'unsafe-inline';"
+    />
     <title>URL to HTML</title>
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"
       rel="stylesheet"
     />
+    <script src="utils.js" defer></script>
+    <script src="js/main.js" defer></script>
     <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const htmlData = urlParams.get("data");
-        const b64Data = urlParams.get("b64");
-        const gistId = urlParams.get("gist"); // New: Get gist parameter
-        const iframe = document.getElementById("iframe").contentWindow.document;
-        const htmlEditor = document.getElementById("htmlEditor");
-        const errorMessage = document.getElementById("errorMessage");
-
-        function showError(message) {
-          errorMessage.textContent = message;
-          errorMessage.classList.remove("hidden");
-        }
-
-        function hideError() {
-          errorMessage.textContent = "";
-          if (!errorMessage.classList.contains("hidden")) {
-            errorMessage.classList.add("hidden");
-          }
-        }
-
-        if (htmlData) {
-          renderHTML(htmlData);
-          htmlEditor.value = htmlData; // Populate editor with loaded HTML
-        } else if (b64Data) {
-          try {
-            const decodedHtml = atob(b64Data);
-            renderHTML(decodedHtml);
-            htmlEditor.value = decodedHtml; // Populate editor with loaded HTML
-          } catch (error) {
-            console.error("Error decoding Base64 data: ", error);
-          }
-        } else if (gistId) {
-          // New: Check for gistId
-          hideError();
-          console.log("Fetching Gist:", gistId);
-          fetch(`https://api.github.com/gists/${gistId}`)
-            .then((response) => {
-              if (!response.ok) {
-                throw new Error(`GitHub API error: ${response.status}`);
-              }
-              return response.json();
-            })
-            .then((data) => {
-              let htmlFileUrl = null;
-              for (const file of Object.values(data.files)) {
-                if (file.filename.endsWith(".html")) {
-                  htmlFileUrl = file.raw_url;
-                  break;
-                }
-              }
-
-              if (htmlFileUrl) {
-                return fetch(htmlFileUrl);
-              } else {
-                console.error("No HTML file found in Gist");
-                throw new Error("No HTML file found in Gist"); // Stop promise chain
-              }
-            })
-            .then((response) => {
-              if (!response.ok) {
-                // This 'response' is from fetching the raw_url
-                throw new Error(
-                  `Error fetching Gist raw content: ${response.status}`,
-                );
-              }
-              return response.text();
-            })
-            .then((htmlText) => {
-              hideError();
-              renderHTML(htmlText);
-              htmlEditor.value = htmlText; // Populate editor with loaded HTML
-            })
-            .catch((error) => {
-              console.error("Error fetching Gist content:", error);
-              showError("Failed to load Gist content.");
-            });
-        } else {
-          const editorContent = htmlEditor.value;
-          if (editorContent) {
-            renderHTML(editorContent);
-          }
-        }
-
-        const renderButton = document.getElementById("renderButton");
-        const copyLinkButton = document.getElementById("copyLinkButton");
-        const clearEditorButton = document.getElementById("clearEditorButton");
-        const updateUrlButton = document.getElementById("updateUrlButton");
-        const sandboxToggle = document.getElementById("sandboxToggle"); // New toggle
-        const themeToggle = document.getElementById("themeToggle"); // Dark/light theme toggle
-        const iframeElement = document.getElementById("iframe"); // Reference to the iframe element itself
-
-        // Initialize theme based on localStorage
-        const savedTheme = localStorage.getItem("theme");
-        if (savedTheme === "dark") {
-          document.documentElement.classList.add("dark");
-          themeToggle.checked = true;
-        }
-
-        renderButton.addEventListener("click", () => {
-          const htmlContent = htmlEditor.value;
-          renderHTML(htmlContent);
-        });
-
-        copyLinkButton.addEventListener("click", () => {
-          const htmlContent = htmlEditor.value;
-          const encodedHtml = encodeURIComponent(htmlContent);
-          const baseUrl = window.location.origin + window.location.pathname;
-          const shareableLink = `${baseUrl}?data=${encodedHtml}`;
-
-          navigator.clipboard
-            .writeText(shareableLink)
-            .then(() => {
-              const originalButtonText = copyLinkButton.textContent;
-              copyLinkButton.textContent = "Copied!";
-              setTimeout(() => {
-                copyLinkButton.textContent = originalButtonText;
-              }, 2000); // Revert after 2 seconds
-            })
-            .catch((err) => {
-              console.error("Failed to copy link: ", err);
-              // You could also alert the user here if something goes wrong
-            });
-        });
-
-        clearEditorButton.addEventListener("click", () => {
-          // New event listener
-          htmlEditor.value = ""; // Clear the editor
-          renderHTML(""); // Clear the iframe
-        });
-
-        updateUrlButton.addEventListener("click", () => {
-          const htmlContent = htmlEditor.value;
-          const encodedHtml = encodeURIComponent(htmlContent);
-          const baseUrl = window.location.origin + window.location.pathname;
-          const newUrl = `${baseUrl}?data=${encodedHtml}`;
-          history.replaceState(null, "", newUrl);
-        });
-
-        sandboxToggle.addEventListener("change", function () {
-          if (sandboxToggle.checked) {
-            iframeElement.sandbox =
-              "allow-scripts allow-same-origin allow-popups allow-forms";
-          } else {
-            iframeElement.sandbox = "";
-          }
-          // Re-render the current content with the new sandbox settings
-          const currentHtml = htmlEditor.value;
-          renderHTML(currentHtml);
-        });
-
-        themeToggle.addEventListener("change", function () {
-          if (themeToggle.checked) {
-            document.documentElement.classList.add("dark");
-            localStorage.setItem("theme", "dark");
-          } else {
-            document.documentElement.classList.remove("dark");
-            localStorage.setItem("theme", "light");
-          }
-        });
-
-        function renderHTML(html) {
-          iframe.open();
-          iframe.write(html);
-          iframe.close();
-        }
-      });
-
+      // The htmz function needs to be globally available for the iframe's onload attribute.
+      // If it were moved to main.js, it would need to be explicitly attached to the window object,
+      // or the onload handler would need to be set programmatically in main.js.
+      // For simplicity with the current structure, keeping it here is acceptable,
+      // or it can be moved to main.js and main.js can set window.htmz = htmz;
       function htmz(frame) {
         setTimeout(() => {
-          const hash = frame.contentWindow.location.hash;
-          if (hash) {
-            const element = frame.contentDocument.querySelector(hash);
-            if (element) {
-              element.replaceWith(...frame.contentDocument.body.childNodes);
+          if (frame && frame.contentWindow) {
+            const hash = frame.contentWindow.location.hash;
+            if (hash) {
+              if (frame.contentDocument) {
+                const element = frame.contentDocument.querySelector(hash);
+                if (
+                  element &&
+                  frame.contentDocument.body &&
+                  frame.contentDocument.body.childNodes
+                ) {
+                  try {
+                    element.replaceWith(
+                      ...frame.contentDocument.body.childNodes,
+                    );
+                  } catch (e) {
+                    console.error("Error during htmz replacement:", e);
+                  }
+                }
+              }
             }
           }
         }, 0);
