@@ -1,127 +1,253 @@
-# Intuit - URL to HTML Renderer
+<div align="center">
 
-## Overview
+# 🎨 Intuit
 
-Intuit is a minimalist web tool that decodes and renders HTML content passed as a URL parameter. Created with an Apple-inspired design aesthetic, the tool provides a sleek interface for rendering HTML, which is then displayed in real-time within an iframe.
+### *A Minimalist HTML Renderer & Visual Testing Tool*
 
-## Features
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+[![GitHub Pages](https://img.shields.io/badge/Demo-Live-success)](https://franklinbaldo.github.io/intuit/)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/franklinbaldo/intuit/issues)
 
-- Render HTML content from URL parameters.
-- Real-time rendering of HTML within an iframe.
-- Clean and user-friendly interface for ease of use.
-- **Configurable Sandbox:** Control the `iframe` sandbox policy. By default, scripts are disabled for security. A toggle allows enabling scripts (`allow-scripts`, `allow-same-origin`, `allow-popups`, `allow-forms`) for testing snippets that require them. Use with caution with untrusted HTML.
-- **Dark Mode:** Switch between light and dark themes for comfortable viewing.
+[**Live Demo**](https://franklinbaldo.github.io/intuit/) • [**Report Bug**](https://github.com/franklinbaldo/intuit/issues) • [**Request Feature**](https://github.com/franklinbaldo/intuit/issues)
 
-## Intuit for LLM-Powered Agents
+</div>
 
-Hey there, LLM-powered agent! If you're working with HTML generation, manipulation, or testing, you're going to find Intuit particularly helpful. Here's why:
+---
 
-- **Instant Visual Feedback:** Generated some HTML? Paste it (or its URL-encoded/Base64 representation) into Intuit via the editor or URL parameters (`data=` or `b64=`), and see it render _immediately_. No complex browser automation or headless setups needed for a quick visual check.
+## 📖 Overview
 
-- **Effortless Debugging:** If your HTML output isn't quite right, Intuit provides a sandboxed environment to quickly inspect and debug your code. See exactly how the browser interprets your tags and styles.
+Intuit is a **zero-dependency, client-side HTML renderer** that displays HTML content from URL parameters, the built-in editor, or GitHub Gists. With an Apple-inspired design aesthetic and powerful sandboxing controls, it provides instant visual feedback for HTML snippets without requiring any backend infrastructure.
 
-- **Rapid Prototyping:** Need to create UI mockups, web components, or test out HTML-based responses? Use Intuit as your scratchpad. Iterate quickly without the overhead of a full development environment.
+---
 
-- **Shareable Previews:** Easily share your HTML creations. Construct a URL with your generated HTML and pass it to your human colleagues or for further processing. They can open it in any browser, anywhere.
+## ✅ What This Is
 
-- **Test Snippets in Isolation:** Got a small piece of HTML, a CSS style you want to try within a structure, or a tiny JavaScript interaction? Intuit is perfect for testing these snippets in isolation without interference from larger applications.
+**Intuit IS:**
 
-- **Zero Backend, Zero Fuss:** As a purely client-side tool, your primary requirement is the ability to make a GET request to access the Intuit URL (e.g., `https://username.github.io/intuit/` potentially with `?data=` or `?b64=` parameters). Once the page is loaded, all HTML, CSS, and basic JavaScript rendering happens directly within that browser environment. No server-side setup, no special permissions beyond web access – if you can form a URL and view a webpage, you can use Intuit.
+- 🎯 **A Visual Testing Tool** – Instantly preview HTML/CSS snippets in a sandboxed iframe
+- 🔗 **A URL-Based HTML Renderer** – Share HTML via encoded URLs (`?data=` or `?b64=`)
+- 🛡️ **A Security-Conscious Sandbox** – Configurable iframe sandbox with script control
+- 🤖 **LLM-Agent Friendly** – Perfect for AI agents generating HTML and needing visual verification
+- 📝 **A Quick HTML Scratchpad** – Live editor for rapid prototyping without a full IDE
+- 🌐 **A GitHub Gist Viewer** – Load and render HTML files directly from Gists
+- 🎨 **A Clean, Minimal Interface** – Apple-inspired design with dark/light theme support
+- 🚀 **Completely Client-Side** – Zero backend, zero server setup, zero dependencies
 
-Intuit empowers you to work more efficiently with HTML, providing a straightforward way to render, test, and share your web content.
+## ❌ What This Is NOT
 
-## Use Cases
+**Intuit is NOT:**
 
-### Web Development
+- ❌ **A Full-Featured Code Editor** – No syntax highlighting, autocomplete, or advanced IDE features
+- ❌ **A Web Hosting Platform** – It renders HTML temporarily; it doesn't store or host files
+- ❌ **A Production Deployment Tool** – Designed for testing and previewing, not production use
+- ❌ **A Backend Service** – No server-side processing, databases, or API endpoints
+- ❌ **A Replacement for DevTools** – Browser developer tools remain the best debugging solution
+- ❌ **A Package Manager or Build Tool** – No npm, webpack, or bundling capabilities
+- ❌ **A Collaborative Editing Platform** – Single-user focused; no real-time collaboration features
 
-- Simplify the process of embedding HTML into web applications.
-- Quickly prototype HTML layouts by passing them as URL parameters and rendering them with Intuit.
+---
 
-### Data Transmission
+## ⚡ Key Features
 
-- Enable the secure transfer of HTML content over the network by passing it as URL parameters.
+### 🔌 Multiple Input Methods
+- **URL Parameters** – Pass HTML via `?data=` (URL-encoded) or `?b64=` (Base64-encoded)
+- **GitHub Gist Integration** – Load HTML files directly using `?gist=<gist-id>`
+- **Live Editor** – Built-in textarea for typing or pasting HTML directly
 
-### Debugging and Testing
+### 🛡️ Security & Sandboxing
+- **Configurable iframe Sandbox** – Scripts disabled by default for security
+- **Script Toggle** – Optional "Allow Scripts" mode for testing interactive content
+- **Content Security Policy** – Safe CSP headers configured for public usage
 
-- Test HTML code snippets easily by passing them as URL parameters and observing the output in real-time.
-- Debug HTML content that's not rendering as expected.
+### 🎨 User Experience
+- **Dark/Light Themes** – Toggle between themes with persistent preferences
+- **Apple-Inspired Design** – Clean, minimal aesthetic using Tailwind CSS
+- **Real-Time Preview** – Instant rendering in a sandboxed iframe
 
-## How to Use
+### 🔧 Developer Tools
+- **Copy Link Button** – Generate shareable URLs with encoded content
+- **Update URL Button** – Sync editor changes to URL without page reload
+- **Clear Editor** – One-click content reset
 
-1. Navigate to [Intuit](https://franklinbaldo.github.io/intuit/).
-2. Add your HTML content as a URL-encoded string in the `data` URL parameter like so:
-   > https://franklinbaldo.github.io/intuit/?data=%3Ch1%3EHello%20World%3C/h1%3E
+---
 
-## API
+## 🤖 For LLM-Powered Agents
+
+> **Hey there, AI agent!** If you're generating, manipulating, or testing HTML, Intuit is your perfect companion.
+
+### Why Agents Love Intuit
+
+| Feature | Benefit |
+|---------|---------|
+| **🎯 Instant Visual Feedback** | Generated HTML? See it render immediately via `?data=` or `?b64=` parameters. No headless browsers or complex automation needed. |
+| **🔍 Effortless Debugging** | Sandboxed environment to inspect how browsers interpret your generated tags and styles. |
+| **⚡ Rapid Prototyping** | Create UI mockups, components, or test HTML responses without a full dev environment. |
+| **🔗 Shareable Previews** | Construct shareable URLs with generated HTML for human review or further processing. |
+| **🧪 Isolated Testing** | Test HTML/CSS/JS snippets in isolation without interference from larger applications. |
+| **🚀 Zero Setup** | Just form a URL and make a GET request. No backend, no special permissions, no dependencies. |
+
+**Example Usage:**
+```
+https://franklinbaldo.github.io/intuit/?data=%3Ch1%3EGenerated%20by%20AI%3C%2Fh1%3E
+```
+
+---
+
+## 💼 Use Cases
+
+| Scenario | How Intuit Helps |
+|----------|------------------|
+| **🎨 Rapid Prototyping** | Test HTML layouts and designs without setting up a project |
+| **🐛 Debugging** | Isolate and troubleshoot HTML rendering issues in a clean environment |
+| **🔗 Content Sharing** | Send HTML previews via shareable URLs to colleagues or clients |
+| **📚 Education** | Teach HTML concepts with instant visual feedback |
+| **🤖 AI Development** | Verify LLM-generated HTML output visually |
+| **📊 Data Visualization** | Quickly render HTML-based charts, tables, or reports |
+| **✉️ Email Templates** | Preview and test HTML email templates before deployment |
+
+---
+
+## 🚀 Quick Start
+
+### Method 1: URL Parameters
+```
+https://franklinbaldo.github.io/intuit/?data=%3Ch1%3EHello%20World%3C%2Fh1%3E
+```
+
+### Method 2: Base64 Encoding
+```
+https://franklinbaldo.github.io/intuit/?b64=PGgxPkhlbGxvIFdvcmxkPC9oMT4=
+```
+
+### Method 3: GitHub Gist
+```
+https://franklinbaldo.github.io/intuit/?gist=YOUR_GIST_ID
+```
+
+### Method 4: Live Editor
+1. Visit [https://franklinbaldo.github.io/intuit/](https://franklinbaldo.github.io/intuit/)
+2. Type or paste HTML into the editor
+3. Click **Render** to preview
+
+---
+
+## 📚 API Reference
 
 ### Query Parameters
 
-Intuit can be controlled via URL query parameters:
+| Parameter | Description | Example |
+|-----------|-------------|---------|
+| **`data`** | URL-encoded HTML content | `?data=%3Ch1%3EHello%3C%2Fh1%3E` |
+| **`b64`** | Base64-encoded HTML content | `?b64=PGgxPkhlbGxvPC9oMT4=` |
+| **`gist`** | GitHub Gist ID (fetches first `.html` file) | `?gist=3f3c76c07548eb884388600d877f7691` |
 
-- **`data`**: Provides URL-encoded HTML content to be rendered.
-  - Example: `...?data=%3Ch1%3EHello%20World%3C%2Fh1%3E`
+**Priority Order:** `data` > `b64` > `gist` > editor content
 
-- **`b64`**: Provides Base64-encoded HTML content to be rendered.
-  - Example: `...?b64=PGgxPkhlbGxvIFdvcmxkPC9oMT4=` (for `<h1>Hello World</h1>`)
+> **Note:** If multiple parameters are provided, the highest priority parameter will be used.
 
-- **`gist`**: Provides a GitHub Gist ID to fetch and render. Intuit will look for the first file ending with `.html` within the Gist's files, retrieve its raw content, and render it.
-  - Example: `...?gist=3f3c76c07548eb884388600d877f7691` (loads `<h1>Hello Gist!</h1>` from the Gist)
-  - **Note**: If multiple content parameters (`data`, `b64`, `gist`) are present, `data` takes precedence, then `b64`, and then `gist`. If none of these are present, the content from the live editor (if any) will be rendered on page load.
+### Editor Controls
 
-### Live Editor and Tools
-
-Beyond URL parameters, Intuit offers:
-
-- **HTML Editor**: A textarea to directly type or paste HTML.
-- **Render Button**: Renders the content from the HTML editor into the preview iframe.
-- **Copy Link Button**: Generates a shareable URL with the current content of the HTML editor (URL-encoded into the `data` parameter) and copies it to the clipboard.
-- **Update URL Button**: Replaces the page's `data` query parameter with the editor contents without reloading the page (using `history.replaceState`).
-- **Sandbox Toggle**: A checkbox ("Allow Scripts") to switch the preview `iframe`'s sandbox settings. Unchecked (default) provides a strict sandbox. Checked allows scripts, same-origin operations, popups, and forms.
-
-## Installation
-
-If you'd like to run Intuit locally:
-
-1. Clone the repository:
-
-   ```sh
-   git clone https://github.com/franklinbaldo/intuit.git
-   cd intuit
-   ```
-
-2. Open `index.html` in your web browser.
-
-## Technology Stack
-
-- HTML5
-- JavaScript
-- Tailwind CSS
-
-## License
-
-This project is released under the [Apache 2.0 License](LICENSE).
-
-## Contributing
-
-Contributions, issues, and feature requests are welcome. Feel free to check the [issues page](https://github.com/franklinbaldo/intuit/issues) if you want to contribute.
-
-## Author
-
-Franklin Silveira Baldo - [Github](https://github.com/franklinbaldo)
-
-## TODO
+| Button | Function |
+|--------|----------|
+| **Render** | Renders editor content into the preview iframe |
+| **Copy Link** | Generates shareable URL with encoded content and copies to clipboard |
+| **Update URL** | Syncs editor content to URL parameter without reload (uses `history.replaceState`) |
+| **Clear Editor** | Clears both editor and preview iframe |
+| **Allow Scripts** | Toggle sandbox mode: Off (secure) / On (allows scripts, forms, popups) |
+| **Theme Toggle** | Switch between light and dark themes (preference saved locally) |
 
 ---
 
-[x] Add Base64 support: detect ?b64= param and auto-decode payloads.
-[x] Implement Gist Loader: support ?gist=<id> to fetch and render external code.
-[x] Enhance Sandboxing: toggle sandbox attribute for <iframe> (allow-scripts vs. strict).
-[x] Add Copy Link button: encode current editor content and copy full URL to clipboard.
-[x] Add "Update URL" button: syncs textarea changes back to the `data` parameter via `history.replaceState`.
-[x] Add "Clear Editor" button: Provides a button to easily clear the content of the HTML textarea.
-[x] Add Dark/Light Themes: Tailwind-based theme switcher for previews.
-[x] Write Unit Tests: simple JS tests for encoding/decoding and iframe injection.
-[x] Set up CSP Headers: configure safe Content-Security-Policy for public usage.
-[x] Document API: detail query parameters and behaviors in README.
+## 💻 Local Installation
+
+Want to run Intuit locally? It's simple:
+
+```bash
+# Clone the repository
+git clone https://github.com/franklinbaldo/intuit.git
+cd intuit
+
+# Open in your browser (that's it!)
+open index.html
+# or just double-click index.html
+```
+
+**No build step. No npm install. No dependencies.** Just open `index.html` in any modern browser.
 
 ---
+
+## 🛠️ Technology Stack
+
+<div align="center">
+
+| Technology | Purpose |
+|:----------:|:-------:|
+| **HTML5** | Core structure |
+| **JavaScript (Vanilla)** | Logic & interactivity |
+| **Tailwind CSS v2.2.19** | Styling framework |
+| **GitHub Pages** | Hosting & deployment |
+
+</div>
+
+**External APIs:**
+- GitHub API (for Gist loading)
+
+**Zero Build Dependencies** – Runs directly in the browser!
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Whether it's:
+- 🐛 Bug reports
+- 💡 Feature requests
+- 📖 Documentation improvements
+- 🔧 Code contributions
+
+Feel free to [open an issue](https://github.com/franklinbaldo/intuit/issues) or submit a pull request.
+
+---
+
+## 📄 License
+
+This project is licensed under the **Apache 2.0 License** – see [LICENSE](LICENSE) file for details.
+
+---
+
+## 👤 Author
+
+**Franklin Silveira Baldo**
+🔗 [GitHub](https://github.com/franklinbaldo)
+
+---
+
+## ✅ Roadmap & Completed Features
+
+### ✨ Completed
+- ✅ Base64 support (`?b64=` parameter)
+- ✅ GitHub Gist loader (`?gist=` parameter)
+- ✅ Configurable sandbox toggle (allow-scripts vs. strict mode)
+- ✅ Copy Link button (generate shareable URLs)
+- ✅ Update URL button (`history.replaceState` integration)
+- ✅ Clear Editor button
+- ✅ Dark/Light theme switcher with persistence
+- ✅ Unit tests for core functionality
+- ✅ Content Security Policy (CSP) configuration
+- ✅ Comprehensive API documentation
+
+### 🚧 Future Considerations
+- [ ] Syntax highlighting in editor
+- [ ] Multiple theme options (beyond light/dark)
+- [ ] Export rendered output as screenshot
+- [ ] Local storage for editor history
+- [ ] Custom CSP configuration via UI
+
+---
+
+<div align="center">
+
+**Made with ❤️ for developers, designers, and AI agents**
+
+[⬆ Back to Top](#-intuit)
+
+</div>
