@@ -45,7 +45,7 @@
         const htmlData = urlParams.get("data");
         const b64Data = urlParams.get("b64");
         const gistId = urlParams.get("gist");
-        const iframe = document.getElementById("iframe").contentWindow.document;
+        const iframeElement = document.getElementById("iframe");
         const htmlEditor = document.getElementById("htmlEditor");
         const errorMessage = document.getElementById("errorMessage");
 
@@ -127,7 +127,6 @@
         const updateUrlButton = document.getElementById("updateUrlButton");
         const sandboxToggle = document.getElementById("sandboxToggle");
         const themeToggle = document.getElementById("themeToggle");
-        const iframeElement = document.getElementById("iframe");
 
         const savedTheme = localStorage.getItem("theme");
         if (savedTheme === "dark") {
@@ -178,7 +177,7 @@
             iframeElement.sandbox =
               "allow-scripts allow-same-origin allow-popups allow-forms";
           } else {
-            iframeElement.sandbox = "allow-same-origin";
+            iframeElement.sandbox = "";
           }
           const currentHtml = htmlEditor.value;
           renderHTML(currentHtml);
@@ -195,19 +194,23 @@
         });
 
         function renderHTML(html) {
-          iframe.open();
-          iframe.write(html);
-          iframe.close();
+          iframeElement.srcdoc = html;
         }
       });
 
       function htmz(frame) {
         setTimeout(() => {
-          const hash = frame.contentWindow.location.hash;
-          if (hash) {
-            const element = frame.contentDocument.querySelector(hash);
-            if (element) {
-              element.replaceWith(...frame.contentDocument.body.childNodes);
+          try {
+            const hash = frame.contentWindow.location.hash;
+            if (hash) {
+              const element = frame.contentDocument.querySelector(hash);
+              if (element) {
+                element.replaceWith(...frame.contentDocument.body.childNodes);
+              }
+            }
+          } catch (error) {
+            if (error?.name !== "SecurityError") {
+              console.error("Preview load handler failed:", error);
             }
           }
         }, 0);
@@ -287,7 +290,7 @@
           </label>
           <label class="flex items-center cursor-pointer group">
             <input type="checkbox" id="themeToggle" class="mr-3 w-4 h-4 text-purple-600 rounded focus:ring-2 focus:ring-purple-500" />
-            <span class="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
               Dark Mode
             </span>
           </label>
@@ -304,7 +307,7 @@
             aria-labelledby="previewHeading"
             class="w-full h-96 border-2 border-gray-300 dark:border-gray-600 rounded-lg bg-white shadow-inner"
             onload="htmz(this)"
-            sandbox="allow-same-origin"
+            sandbox=""
           ></iframe>
         </section>
       </main>
