@@ -14,7 +14,7 @@
     <meta name="description" content="A minimalist HTML renderer and visual testing tool for developers, designers, and AI agents" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind-dark.min.css"
       rel="stylesheet"
     />
     <script>
@@ -23,7 +23,7 @@
         const htmlData = urlParams.get("data");
         const b64Data = urlParams.get("b64");
         const gistId = urlParams.get("gist"); // New: Get gist parameter
-        const iframe = document.getElementById("iframe").contentWindow.document;
+        const iframeElement = document.getElementById("iframe");
         const htmlEditor = document.getElementById("htmlEditor");
         const errorMessage = document.getElementById("errorMessage");
 
@@ -44,7 +44,9 @@
           htmlEditor.value = htmlData; // Populate editor with loaded HTML
         } else if (b64Data) {
           try {
-            const decodedHtml = atob(b64Data);
+            // URLSearchParams decodes `+` as a space. Restore raw Base64
+            // semantics so existing `?b64=` links round-trip exactly.
+            const decodedHtml = atob(b64Data.replace(/ /g, "+"));
             renderHTML(decodedHtml);
             htmlEditor.value = decodedHtml; // Populate editor with loaded HTML
           } catch (error) {
@@ -108,7 +110,6 @@
         const updateUrlButton = document.getElementById("updateUrlButton");
         const sandboxToggle = document.getElementById("sandboxToggle"); // New toggle
         const themeToggle = document.getElementById("themeToggle"); // Dark/light theme toggle
-        const iframeElement = document.getElementById("iframe"); // Reference to the iframe element itself
 
         // Initialize theme based on localStorage
         const savedTheme = localStorage.getItem("theme");
@@ -159,10 +160,12 @@
 
         sandboxToggle.addEventListener("change", function () {
           if (sandboxToggle.checked) {
-            iframeElement.sandbox =
-              "allow-scripts allow-same-origin allow-popups allow-forms";
+            iframeElement.setAttribute(
+              "sandbox",
+              "allow-scripts allow-same-origin allow-popups allow-forms",
+            );
           } else {
-            iframeElement.sandbox = "";
+            iframeElement.setAttribute("sandbox", "");
           }
           // Re-render the current content with the new sandbox settings
           const currentHtml = htmlEditor.value;
@@ -180,19 +183,28 @@
         });
 
         function renderHTML(html) {
-          iframe.open();
-          iframe.write(html);
-          iframe.close();
+          // `sandbox=""` gives the frame an opaque origin, so parent-side access
+          // to contentDocument is intentionally unavailable. srcdoc lets the
+          // parent replace the rendered document without weakening that sandbox.
+          iframeElement.srcdoc = html;
         }
       });
 
       function htmz(frame) {
         setTimeout(() => {
-          const hash = frame.contentWindow.location.hash;
-          if (hash) {
-            const element = frame.contentDocument.querySelector(hash);
-            if (element) {
-              element.replaceWith(...frame.contentDocument.body.childNodes);
+          try {
+            const hash = frame.contentWindow.location.hash;
+            if (hash) {
+              const element = frame.contentDocument.querySelector(hash);
+              if (element) {
+                element.replaceWith(...frame.contentDocument.body.childNodes);
+              }
+            }
+          } catch (error) {
+            // A strict sandbox intentionally has an opaque origin. Hash-based
+            // htmz replacement is optional and should not break normal preview.
+            if (frame.getAttribute("sandbox") !== "") {
+              console.error("Unable to process iframe hash:", error);
             }
           }
         }, 0);
@@ -200,7 +212,7 @@
     </script>
   </head>
   <body
-    class="font-sans antialiased bg-gradient-to-br from-gray-50 to-gray-100 text-gray-800 dark:from-gray-900 dark:to-gray-800 dark:text-gray-100 min-h-screen"
+    class="font-sans antialiased bg-gray-50 bg-gradient-to-br from-gray-50 to-gray-100 text-gray-800 dark:bg-gray-900 dark:from-gray-900 dark:to-gray-800 dark:text-gray-100 min-h-screen"
   >
     <div class="container mx-auto p-4 sm:p-8 max-w-7xl">
       <!-- Header Section -->
@@ -278,18 +290,19 @@
         </div>
 
         <!-- Preview Section -->
-        <div>
-          <label class="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">
+        <section aria-labelledby="previewHeading">
+          <h2 id="previewHeading" class="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">
             Preview
-          </label>
+          </h2>
           <iframe
             id="iframe"
             name="htmz"
+            title="Rendered HTML preview"
             class="w-full h-96 border-2 border-gray-300 dark:border-gray-600 rounded-lg bg-white shadow-inner"
             onload="htmz(this)"
             sandbox=""
           ></iframe>
-        </div>
+        </section>
       </div>
 
       <!-- Footer -->
