@@ -278,18 +278,19 @@
         </div>
 
         <!-- Preview Section -->
-        <div>
-          <label class="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">
+        <section aria-labelledby="previewHeading">
+          <h2 id="previewHeading" class="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">
             Preview
-          </label>
+          </h2>
           <iframe
             id="iframe"
             name="htmz"
+            title="Rendered HTML preview"
             class="w-full h-96 border-2 border-gray-300 dark:border-gray-600 rounded-lg bg-white shadow-inner"
             onload="htmz(this)"
             sandbox=""
           ></iframe>
-        </div>
+        </section>
       </div>
 
       <!-- Footer -->
