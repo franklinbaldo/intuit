@@ -4,7 +4,8 @@ module.exports = defineConfig({
   testDir: './tests/playwright',
   fullyParallel: false,
   forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 2 : 0,
+  timeout: 15_000,
+  retries: process.env.CI ? 1 : 0,
   workers: 1,
   reporter: 'html',
   use: {
