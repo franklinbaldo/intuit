@@ -29,9 +29,9 @@ module.exports = defineConfig({
     },
   ],
 
-  // webServer: {
-  //   command: 'npx http-server -p 8080',
-  //   url: 'http://localhost:8080',
-  //   reuseExistingServer: !process.env.CI,
-  // },
+  webServer: {
+    command: 'npx http-server -p 8080',
+    url: 'http://localhost:8080',
+    reuseExistingServer: !process.env.CI,
+  },
 });
