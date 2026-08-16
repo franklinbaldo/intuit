@@ -17,12 +17,34 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"
       rel="stylesheet"
     />
+    <style>
+      button:focus-visible,
+      a:focus-visible,
+      input:focus-visible,
+      textarea:focus-visible {
+        outline: 3px solid #2563eb;
+        outline-offset: 3px;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .transition-all,
+        .transition-colors,
+        .duration-200 {
+          transition-duration: 0.01ms !important;
+          animation-duration: 0.01ms !important;
+        }
+
+        .hover\:scale-105:hover {
+          transform: none !important;
+        }
+      }
+    </style>
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         const urlParams = new URLSearchParams(window.location.search);
         const htmlData = urlParams.get("data");
         const b64Data = urlParams.get("b64");
-        const gistId = urlParams.get("gist"); // New: Get gist parameter
+        const gistId = urlParams.get("gist");
         const iframe = document.getElementById("iframe").contentWindow.document;
         const htmlEditor = document.getElementById("htmlEditor");
         const errorMessage = document.getElementById("errorMessage");
@@ -41,17 +63,16 @@
 
         if (htmlData) {
           renderHTML(htmlData);
-          htmlEditor.value = htmlData; // Populate editor with loaded HTML
+          htmlEditor.value = htmlData;
         } else if (b64Data) {
           try {
             const decodedHtml = atob(b64Data);
             renderHTML(decodedHtml);
-            htmlEditor.value = decodedHtml; // Populate editor with loaded HTML
+            htmlEditor.value = decodedHtml;
           } catch (error) {
             console.error("Error decoding Base64 data: ", error);
           }
         } else if (gistId) {
-          // New: Check for gistId
           hideError();
           console.log("Fetching Gist:", gistId);
           fetch(`https://api.github.com/gists/${gistId}`)
@@ -72,14 +93,12 @@
 
               if (htmlFileUrl) {
                 return fetch(htmlFileUrl);
-              } else {
-                console.error("No HTML file found in Gist");
-                throw new Error("No HTML file found in Gist"); // Stop promise chain
               }
+              console.error("No HTML file found in Gist");
+              throw new Error("No HTML file found in Gist");
             })
             .then((response) => {
               if (!response.ok) {
-                // This 'response' is from fetching the raw_url
                 throw new Error(
                   `Error fetching Gist raw content: ${response.status}`,
                 );
@@ -89,7 +108,7 @@
             .then((htmlText) => {
               hideError();
               renderHTML(htmlText);
-              htmlEditor.value = htmlText; // Populate editor with loaded HTML
+              htmlEditor.value = htmlText;
             })
             .catch((error) => {
               console.error("Error fetching Gist content:", error);
@@ -106,11 +125,10 @@
         const copyLinkButton = document.getElementById("copyLinkButton");
         const clearEditorButton = document.getElementById("clearEditorButton");
         const updateUrlButton = document.getElementById("updateUrlButton");
-        const sandboxToggle = document.getElementById("sandboxToggle"); // New toggle
-        const themeToggle = document.getElementById("themeToggle"); // Dark/light theme toggle
-        const iframeElement = document.getElementById("iframe"); // Reference to the iframe element itself
+        const sandboxToggle = document.getElementById("sandboxToggle");
+        const themeToggle = document.getElementById("themeToggle");
+        const iframeElement = document.getElementById("iframe");
 
-        // Initialize theme based on localStorage
         const savedTheme = localStorage.getItem("theme");
         if (savedTheme === "dark") {
           document.documentElement.classList.add("dark");
@@ -135,18 +153,16 @@
               copyLinkButton.textContent = "Copied!";
               setTimeout(() => {
                 copyLinkButton.textContent = originalButtonText;
-              }, 2000); // Revert after 2 seconds
+              }, 2000);
             })
             .catch((err) => {
               console.error("Failed to copy link: ", err);
-              // You could also alert the user here if something goes wrong
             });
         });
 
         clearEditorButton.addEventListener("click", () => {
-          // New event listener
-          htmlEditor.value = ""; // Clear the editor
-          renderHTML(""); // Clear the iframe
+          htmlEditor.value = "";
+          renderHTML("");
         });
 
         updateUrlButton.addEventListener("click", () => {
@@ -164,7 +180,6 @@
           } else {
             iframeElement.sandbox = "";
           }
-          // Re-render the current content with the new sandbox settings
           const currentHtml = htmlEditor.value;
           renderHTML(currentHtml);
         });
@@ -203,7 +218,6 @@
     class="font-sans antialiased bg-gradient-to-br from-gray-50 to-gray-100 text-gray-800 dark:from-gray-900 dark:to-gray-800 dark:text-gray-100 min-h-screen"
   >
     <div class="container mx-auto p-4 sm:p-8 max-w-7xl">
-      <!-- Header Section -->
       <header class="mb-8 text-center">
         <h1 class="text-5xl font-bold mb-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
           Intuit
@@ -213,28 +227,27 @@
         </p>
       </header>
 
-      <!-- Error Message -->
       <div
         id="errorMessage"
+        role="alert"
+        aria-live="assertive"
         class="hidden bg-red-100 dark:bg-red-900 border border-red-400 dark:border-red-600 text-red-700 dark:text-red-200 px-4 py-3 rounded-lg mb-6 shadow-sm"
       ></div>
 
-      <!-- Main Content Card -->
-      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-6">
-        <!-- Editor Section -->
-        <div class="mb-6">
-          <label for="htmlEditor" class="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">
+      <main class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-6">
+        <section class="mb-6" aria-labelledby="editorHeading">
+          <h2 id="editorHeading" class="text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">
             HTML Editor
-          </label>
+          </h2>
+          <label for="htmlEditor" class="sr-only">HTML source</label>
           <textarea
             id="htmlEditor"
             class="w-full h-64 border-2 border-gray-300 dark:border-gray-600 rounded-lg p-4 font-mono text-sm bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition-all resize-none"
             placeholder="Type or paste your HTML here..."
           ></textarea>
-        </div>
+        </section>
 
-        <!-- Action Buttons -->
-        <div class="flex flex-wrap gap-3 mb-6">
+        <div class="flex flex-wrap gap-3 mb-6" role="group" aria-label="Editor actions">
           <button
             id="renderButton"
             class="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold py-2.5 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105"
@@ -261,8 +274,11 @@
           </button>
         </div>
 
-        <!-- Settings Toggles -->
-        <div class="flex flex-wrap gap-6 mb-6 pb-6 border-b border-gray-200 dark:border-gray-700">
+        <div
+          class="flex flex-wrap gap-6 mb-6 pb-6 border-b border-gray-200 dark:border-gray-700"
+          role="group"
+          aria-label="Preview settings"
+        >
           <label class="flex items-center cursor-pointer group">
             <input type="checkbox" id="sandboxToggle" class="mr-3 w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500" />
             <span class="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
@@ -277,26 +293,26 @@
           </label>
         </div>
 
-        <!-- Preview Section -->
-        <div>
-          <label class="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">
+        <section aria-labelledby="previewHeading">
+          <h2 id="previewHeading" class="text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">
             Preview
-          </label>
+          </h2>
           <iframe
             id="iframe"
             name="htmz"
+            title="Preview"
+            aria-labelledby="previewHeading"
             class="w-full h-96 border-2 border-gray-300 dark:border-gray-600 rounded-lg bg-white shadow-inner"
             onload="htmz(this)"
             sandbox=""
           ></iframe>
-        </div>
-      </div>
+        </section>
+      </main>
 
-      <!-- Footer -->
       <footer class="text-center text-sm text-gray-600 dark:text-gray-400 mt-8">
         <p>
           Made with ❤️ for developers, designers, and AI agents |
-          <a href="https://github.com/franklinbaldo/intuit" target="_blank" class="text-blue-600 dark:text-blue-400 hover:underline">
+          <a href="https://github.com/franklinbaldo/intuit" target="_blank" rel="noopener noreferrer" class="text-blue-600 dark:text-blue-400 hover:underline">
             View on GitHub
           </a>
         </p>
