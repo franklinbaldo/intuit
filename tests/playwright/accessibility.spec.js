@@ -4,7 +4,8 @@ test.describe('Editor / preview accessibility', () => {
   test('exposes the preview and dynamic errors semantically', async ({ page }) => {
     await page.goto('/');
 
-    await expect(page.getByRole('iframe', { name: 'Preview' })).toBeVisible();
+    await expect(page.locator('iframe[title="Preview"][aria-labelledby="previewHeading"]')).toBeVisible();
+    await expect(page.locator('#previewHeading')).toHaveText('Preview');
     await expect(page.locator('#errorMessage')).toHaveAttribute('role', 'alert');
     await expect(page.locator('[role="group"][aria-label="Editor actions"]')).toBeVisible();
     await expect(page.locator('[role="group"][aria-label="Preview settings"]')).toBeVisible();
