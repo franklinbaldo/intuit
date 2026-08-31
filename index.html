@@ -17,6 +17,31 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind-dark.min.css"
       rel="stylesheet"
     />
+    <style>
+      button:focus-visible,
+      input[type="checkbox"]:focus-visible,
+      textarea:focus-visible,
+      a:focus-visible {
+        outline: 3px solid #2563eb;
+        outline-offset: 3px;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        button,
+        textarea,
+        label span,
+        a {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          scroll-behavior: auto !important;
+          transition-duration: 0.01ms !important;
+        }
+
+        button:hover {
+          transform: none !important;
+        }
+      }
+    </style>
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         const urlParams = new URLSearchParams(window.location.search);
