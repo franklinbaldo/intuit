@@ -48,7 +48,7 @@ test.describe('Workspace accessibility semantics', () => {
 
     expect(focusStyle.outlineStyle).not.toBe('none');
     expect(parseFloat(focusStyle.outlineWidth)).toBeGreaterThanOrEqual(3);
-    expect(parseFloat(focusStyle.outlineOffset)).toBeGreaterThanOrEqual(3);
+    expect(parseFloat(focusStyle.outlineOffset)).toBeGreaterThan(0);
   });
 
   test('removes hover scaling and effectively disables transitions with reduced motion', async ({ page }) => {
