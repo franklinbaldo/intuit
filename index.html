@@ -228,6 +228,8 @@
       <!-- Error Message -->
       <div
         id="errorMessage"
+        role="alert"
+        aria-live="assertive"
         class="hidden bg-red-100 dark:bg-red-900 border border-red-400 dark:border-red-600 text-red-700 dark:text-red-200 px-4 py-3 rounded-lg mb-6 shadow-sm"
       ></div>
 
@@ -246,7 +248,7 @@
         </div>
 
         <!-- Action Buttons -->
-        <div class="flex flex-wrap gap-3 mb-6">
+        <div class="flex flex-wrap gap-3 mb-6" role="group" aria-label="Editor actions">
           <button
             id="renderButton"
             class="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold py-2.5 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105"
@@ -274,7 +276,7 @@
         </div>
 
         <!-- Settings Toggles -->
-        <div class="flex flex-wrap gap-6 mb-6 pb-6 border-b border-gray-200 dark:border-gray-700">
+        <div class="flex flex-wrap gap-6 mb-6 pb-6 border-b border-gray-200 dark:border-gray-700" role="group" aria-label="Preview settings">
           <label class="flex items-center cursor-pointer group">
             <input type="checkbox" id="sandboxToggle" class="mr-3 w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500" />
             <span class="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
