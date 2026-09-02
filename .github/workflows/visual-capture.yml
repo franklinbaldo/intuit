@@ -33,7 +33,7 @@ jobs:
           {
             echo "commit_sha=${CAPTURE_SHA}"
             echo "route=/intuit/"
-            echo "viewport=1440x900"
+            echo "viewports=1440x900,390x844"
             echo "captured_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
           } > artifacts/visual/metadata.txt
       - uses: actions/upload-artifact@v4
