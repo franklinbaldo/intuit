@@ -302,12 +302,22 @@
 
         <!-- Settings Toggles -->
         <div class="flex flex-wrap gap-6 mb-6 pb-6 border-b border-gray-200 dark:border-gray-700" role="group" aria-label="Preview settings">
-          <label class="flex items-center cursor-pointer group">
-            <input type="checkbox" id="sandboxToggle" class="mr-3 w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500" />
-            <span class="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-              Allow Scripts
-            </span>
-          </label>
+          <div class="flex flex-col gap-1 max-w-md">
+            <label class="flex items-center cursor-pointer group">
+              <input
+                type="checkbox"
+                id="sandboxToggle"
+                aria-describedby="sandboxHelp"
+                class="mr-3 w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
+              />
+              <span class="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                Allow Scripts
+              </span>
+            </label>
+            <p id="sandboxHelp" class="text-xs leading-relaxed text-gray-600 dark:text-gray-400">
+              Use only with trusted HTML. Enabling scripts reduces preview isolation and allows the rendered content more access than the default sandbox.
+            </p>
+          </div>
           <label class="flex items-center cursor-pointer group">
             <input type="checkbox" id="themeToggle" class="mr-3 w-4 h-4 text-purple-600 rounded focus:ring-2 focus:ring-purple-500" />
             <span class="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">

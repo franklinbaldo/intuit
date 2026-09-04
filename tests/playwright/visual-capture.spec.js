@@ -7,10 +7,12 @@ const viewports = [
   { name: 'home-390x844.png', width: 390, height: 844 },
 ];
 
+const targetUrl = process.env.PUBLISHED_URL || '/';
+
 for (const viewport of viewports) {
   test(`capture deterministic home surface at ${viewport.width}x${viewport.height}`, async ({ page }) => {
     await page.setViewportSize({ width: viewport.width, height: viewport.height });
-    await page.goto('/', { waitUntil: 'networkidle' });
+    await page.goto(targetUrl, { waitUntil: 'networkidle' });
 
     const outputDir = path.join(process.cwd(), 'artifacts', 'visual');
     fs.mkdirSync(outputDir, { recursive: true });
