@@ -78,49 +78,62 @@
             console.error("Error decoding Base64 data: ", error);
           }
         } else if (gistId) {
-          // New: Check for gistId
           hideError();
           console.log("Fetching Gist:", gistId);
+
           fetch(`https://api.github.com/gists/${gistId}`)
             .then((response) => {
               if (!response.ok) {
-                throw new Error(`GitHub API error: ${response.status}`);
+                showError(
+                  `The Gist could not be loaded (GitHub returned ${response.status}). Check the link or try again later.`,
+                );
+                return null;
               }
               return response.json();
             })
             .then((data) => {
-              let htmlFileUrl = null;
-              for (const file of Object.values(data.files)) {
-                if (file.filename.endsWith(".html")) {
-                  htmlFileUrl = file.raw_url;
-                  break;
-                }
+              if (!data) {
+                return null;
               }
 
-              if (htmlFileUrl) {
-                return fetch(htmlFileUrl);
-              } else {
-                console.error("No HTML file found in Gist");
-                throw new Error("No HTML file found in Gist"); // Stop promise chain
+              const htmlFile = Object.values(data.files || {}).find((file) =>
+                file.filename.endsWith(".html"),
+              );
+
+              if (!htmlFile) {
+                showError(
+                  "This Gist does not contain an HTML file. Add a .html file to the Gist or open a different one.",
+                );
+                return null;
               }
+
+              return fetch(htmlFile.raw_url);
             })
             .then((response) => {
+              if (!response) {
+                return null;
+              }
               if (!response.ok) {
-                // This 'response' is from fetching the raw_url
-                throw new Error(
-                  `Error fetching Gist raw content: ${response.status}`,
+                showError(
+                  `The Gist was found, but its HTML file could not be loaded (HTTP ${response.status}). Try again later.`,
                 );
+                return null;
               }
               return response.text();
             })
             .then((htmlText) => {
+              if (htmlText === null) {
+                return;
+              }
               hideError();
               renderHTML(htmlText);
               htmlEditor.value = htmlText; // Populate editor with loaded HTML
             })
             .catch((error) => {
               console.error("Error fetching Gist content:", error);
-              showError("Failed to load Gist content.");
+              showError(
+                "The Gist could not be loaded because the request failed. Check your connection and try again.",
+              );
             });
         } else {
           const editorContent = htmlEditor.value;
