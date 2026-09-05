@@ -45,7 +45,7 @@ test.describe('Gist loading feedback', () => {
 
     await expect(page.locator('#errorMessage')).toContainText('does not contain an HTML file');
     await expect(page.locator('#htmlEditor')).toHaveValue('');
-    await expect(page.locator('#iframe')).toHaveAttribute('srcdoc', '');
+    expect(await page.locator('#iframe').getAttribute('srcdoc')).toBeNull();
   });
 
   test('reports an HTTP failure without pretending the Gist has no HTML', async ({ page }) => {
